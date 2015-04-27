@@ -29,9 +29,10 @@ public:
 	void patArrive(Patient p);
 	void patDepart();
 
-	string getDoctor();
+	Doctor getDoctor();
 	int numWaiting();
 	int roomNumber();
+	void enqueue(Patient p);
 
 private:
 	int roomNum;

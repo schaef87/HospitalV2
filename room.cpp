@@ -10,7 +10,7 @@
 
 Room::Room(int n){
 	roomNum = n;
-	Doctor* doctor;
+	doctor = 0;
 	queue<Patient> waitingRoom;
 	docIn = 0;
 }
@@ -19,12 +19,11 @@ Room::~Room(){
 	delete this;
 }
 
-bool hasDr(){
-	bool dr = false;
-	if(docIn == 1){
-		dr = true;
-	}
-	return dr;
+bool Room::hasDr(){
+	if(docIn == 1)
+		return true;
+
+	return false;
 }
 
 void Room::drArrive(Doctor d){
@@ -33,20 +32,20 @@ void Room::drArrive(Doctor d){
 }
 
 void Room::drDepart(){
-
+	delete doctor;
 	docIn = 0;
 }
 
-void patArrive(Patient p){
+void Room::patArrive(Patient p){
 	waitingRoom.push(p);
 }
 
-void patDepart(){
+void Room::patDepart(){
 	waitingRoom.pop();
 }
 
-string Room::getDoctor(){
-	return doctor.getDrName();
+Doctor Room::getDoctor(){
+	return *doctor;
 }
 
 int Room::numWaiting(){
@@ -56,3 +55,7 @@ int Room::numWaiting(){
 int Room::roomNumber(){
 	return roomNum;
 }
+//
+//void Room::enqueue(Patient p){
+//	waitingRoom.enqueue(p);
+//}
