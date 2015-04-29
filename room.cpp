@@ -4,13 +4,14 @@
  *  Created on: Apr 25, 2015
  *      Author: Justin
  */
-
+#include "registerV2.cpp"
 #include "room.h"
 
 
 Room::Room(int n){
 	roomNum = n;
 	doctor = 0;
+	patient = 0;
 	queue<Patient> waitingRoom;
 	docIn = 0;
 }
@@ -40,8 +41,13 @@ void Room::patArrive(Patient p){
 	waitingRoom.push(p);
 }
 
-void Room::patDepart(){
-	waitingRoom.pop();
+void Room::patShuffle(Patient p){
+	waitingRoom.push(p);
+}
+
+Patient Room::patDepart(){              //ASK JOHN!!!!!!!!!!!!!!!!!!!!!!
+	Patient cured = waitingRoom.pop();
+	return cured;
 }
 
 Doctor Room::getDoctor(){
@@ -55,7 +61,7 @@ int Room::numWaiting(){
 int Room::roomNumber(){
 	return roomNum;
 }
-//
-//void Room::enqueue(Patient p){
-//	waitingRoom.enqueue(p);
-//}
+
+Patient Room::getPatient(){
+	return *patient;
+}

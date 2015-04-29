@@ -27,18 +27,20 @@ public:
 	void drArrive(Doctor d);
 	void drDepart();
 	void patArrive(Patient p);
-	void patDepart();
+	void patShuffle(Patient p);
+	Patient patDepart();
 
 	Doctor getDoctor();
+	Patient getPatient();
 	int numWaiting();
 	int roomNumber();
-	void enqueue(Patient p);
 
 private:
 	int roomNum;
 	queue<Patient> waitingRoom;
 	Doctor* doctor;
 	int docIn;
+	Patient* patient;
 
 };
 
