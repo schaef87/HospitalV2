@@ -147,11 +147,13 @@ void autoCheckIn(Patient p){
 			}
 			type = rooms.at(x).getDoctor().getDrSpec();
 			if(type == p.getSpec()){
+				p.setRoom(x);
 				rooms.at(x).patArrive(p);
 				track = 1;
 				cout << p.getName() << ", you have been assigned to Dr. " << rooms.at(x).getDoctor().getDrName() << " in room "<< rooms.at(x).roomNumber() << endl;
 				out << p.getName() << ", has been relocated to Dr. " << rooms.at(x).getDoctor().getDrName() << " in room " << rooms.at(x).roomNumber() << endl;
 			} else if(type != p.getSpec() && count == 24){
+				p.setRoom(x);
 				rooms.at(docTrack).patArrive(p);
 				track = 1;
 			}
@@ -208,11 +210,13 @@ void patientCI(){
 			}
 			type = rooms.at(x).getDoctor().getDrSpec();
 			if(type == pat->getSpec()){
-				rooms.at(x).patArrive(*pat);
+				*pat->setRoom(x);
+				rooms.at(x).patArrive(*pat);        //ERROR ERROR ERROR
 				track = 1;
 				cout << "Welcome, " << pat->getName() << ". You will see Dr. " << drName << " in room #" << x << endl;
 				out << pat->getName() << " will see Dr. " << drName << " in room #" << x << endl;
 			} else if(type != pat->getSpec() && count == 24){
+				*pat->setRoom(x);                 //ERROR ERROR ERROR
 				rooms.at(docTrack).patArrive(*pat);
 				track = 1;
 			}
