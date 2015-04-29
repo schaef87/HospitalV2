@@ -4,20 +4,31 @@
  *  Created on: Apr 25, 2015
  *      Author: Justin
  */
-#include "registerV2.cpp"
+
 #include "room.h"
 
+Room::Room(){
+	roomNum = 0;
+	doctor = 0;
+	patient = 0;
+//	queue<Patient> waitingRoom;
+	docIn = 0;
+}
 
 Room::Room(int n){
 	roomNum = n;
 	doctor = 0;
 	patient = 0;
-	queue<Patient> waitingRoom;
+//	queue<Patient> waitingRoom;
 	docIn = 0;
 }
 
+
 Room::~Room(){
-	delete this;
+}
+
+void Room::setRmNum(int r){
+	roomNum = r;
 }
 
 bool Room::hasDr(){
@@ -41,12 +52,9 @@ void Room::patArrive(Patient p){
 	waitingRoom.push(p);
 }
 
-void Room::patShuffle(Patient p){
-	waitingRoom.push(p);
-}
-
 Patient Room::patDepart(){              //ASK JOHN!!!!!!!!!!!!!!!!!!!!!!
-	Patient cured = waitingRoom.pop();
+	Patient cured = waitingRoom.front();
+	waitingRoom.pop();
 	return cured;
 }
 

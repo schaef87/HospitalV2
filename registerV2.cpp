@@ -26,11 +26,14 @@ vector<Room> rooms;
 ofstream out;  //OUTPUT MESSAGES
 
 int main(){
-	//	ofstream out;  //OUTPUT MESSAGES
 	out.open("messages.out");
 
-	//	vector<Room> rooms;
-	rooms[25];
+	for(int x = 0;x<25;x++){
+		cout << "start building rooms" << endl;
+		Room temp(x);
+		rooms.push_back(temp);
+		cout << x+1 << " Rooms complete." << endl;
+	}
 
 	char checkIO;
 	char levelIO;
@@ -41,7 +44,6 @@ int main(){
 	out << "Please type \"D\" if you are a doctor, or \"P\" if you are a patient." << endl;
 
 	cin >> levelIO;
-
 	levelIO = toupper(levelIO);
 
 	while (levelIO != 'D' && levelIO != 'P'){
@@ -53,6 +55,7 @@ int main(){
 	if(levelIO == 'D'){
 		cout << "Are you checking in our out? \"I\" or \"O\"" << endl;
 		cin >> checkIO;
+		checkIO = toupper(checkIO);
 
 		while (checkIO != 'I' && checkIO != 'O'){
 			cout << "Invalid selection. Please try again." << endl;
@@ -87,12 +90,18 @@ void doctorCI(){
 	string name;
 	int room;
 	string spec;
+//	bool check;
 
 	cout << "What is your name?" << endl;
 	cin >> name;
 	spec = specList();
 	cout << "What room would you prefer? Choose 1-25" << endl;
 	cin >> room;
+
+//	do{
+//		check=false;
+//
+//	}
 
 	while(rooms.at(room).hasDr()){
 		cout << "Room occupied." << endl;
@@ -208,13 +217,13 @@ void patientCI(){
 			}
 			type = rooms.at(x).getDoctor().getDrSpec();
 			if(type == pat->getSpec()){
-				*pat->setRoom(x);
+				pat->setRoom(x);
 				rooms.at(x).patArrive(*pat);        //ERROR ERROR ERROR
 				track = 1;
 				cout << "Welcome, " << pat->getName() << ". You will see Dr. " << drName << " in room #" << x << endl;
 				out << pat->getName() << " will see Dr. " << drName << " in room #" << x << endl;
 			} else if(type != pat->getSpec() && count == 24){
-				*pat->setRoom(x);                 //ERROR ERROR ERROR
+				pat->setRoom(x);                 //ERROR ERROR ERROR
 				rooms.at(docTrack).patArrive(*pat);
 				track = 1;
 			}
@@ -289,7 +298,11 @@ string specList(){
 				break;
 			}
 		}
-		cout << "Invalid selection. Try again." << endl;
+		if(track == 0){
+			cout << "Invalid selection. Try again." << endl;
+		}
 	}
-	return options[x];
+
+cout << options[x] << endl;
+return options[x];
 }

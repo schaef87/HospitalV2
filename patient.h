@@ -24,6 +24,7 @@ public:
 	int getAge();
 	int getRoom();
 	void setRoom(int r);
+	void operator= (Patient p);
 
 private:
 	string name;

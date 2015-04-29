@@ -17,13 +17,16 @@
 
 using namespace std;
 
+
 class Room{
 public:
+	Room();
 	Room(int n);
 	~Room();
 
 	bool hasDr();
 
+	void setRmNum(int r);
 	void drArrive(Doctor d);
 	void drDepart();
 	void patArrive(Patient p);

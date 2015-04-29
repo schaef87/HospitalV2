@@ -36,3 +36,12 @@ int Patient::getRoom(){
 void Patient::setRoom(int r){
 	room = r;
 }
+
+void Patient::operator= (Patient p){
+	if(this!=&p){
+		name=p.name;
+		spec=p.spec;
+		age=p.age;
+		room=p.room;
+	}
+}
