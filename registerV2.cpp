@@ -90,8 +90,7 @@ void doctorCI(){
 
 	cout << "What is your name?" << endl;
 	cin >> name;
-	cout << "What is your specialty" << endl;
-	cin >> spec;
+	spec = specList();
 	cout << "What room would you prefer? Choose 1-25" << endl;
 	cin >> room;
 
@@ -192,8 +191,7 @@ void patientCI(){
 	cin >> age;
 
 	if(age > 15){
-		cout << "What type of doctor would you like to see?" << endl;
-		cin >> spec;
+		spec = specList();
 	} else {
 		spec = "ped";
 	}
@@ -263,7 +261,7 @@ string specList(){
 	options[11]="ENT";
 
 
-	cout << "Here is a list of specialties we offer. Please enter a specialty code." << endl;
+	cout << "Please enter a specialty code." << endl;
 	cout << endl;
 	cout << "Pediatrics 					PED" << endl;
 	cout << "Family practice 				FAM" << endl;
