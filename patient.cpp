@@ -7,6 +7,12 @@
 
 #include "patient.h"
 
+Patient::Patient(){
+	name = "0";
+	spec = "0";
+	age = 0;
+}
+
 Patient::Patient(string n, string s, int a){
 	name = n;
 	spec = s;
@@ -14,7 +20,6 @@ Patient::Patient(string n, string s, int a){
 }
 
 Patient::~Patient(){
-	delete this;
 }
 
 string Patient::getName(){

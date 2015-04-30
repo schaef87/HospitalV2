@@ -16,6 +16,7 @@ using namespace std;
 
 class Doctor{
 public:
+	Doctor();
 	Doctor(string n, string s, int r);
 	~Doctor();
 

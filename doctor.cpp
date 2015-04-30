@@ -7,6 +7,12 @@
 
 #include "doctor.h"
 
+Doctor::Doctor(){
+	name = "0";
+	spec = "0";
+	room = -1;
+}
+
 Doctor::Doctor(string n, string s, int r){
 	name = n;
 	spec = s;
@@ -14,7 +20,6 @@ Doctor::Doctor(string n, string s, int r){
 }
 
 Doctor::~Doctor(){
-	delete this;
 }
 
 string Doctor::getDrName(){

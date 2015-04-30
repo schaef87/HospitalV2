@@ -16,6 +16,7 @@ using namespace std;
 
 class Patient{
 public:
+	Patient();
 	Patient(string n, string s, int a);
 	~Patient();
 
@@ -30,7 +31,7 @@ private:
 	string name;
 	string spec;
 	int age;
-	int room = -1;
+	int room;
 };
 
 

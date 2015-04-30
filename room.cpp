@@ -8,10 +8,10 @@
 #include "room.h"
 
 Room::Room(){
-	roomNum = 0;
+	roomNum = -1;
 	doctor = 0;
 	patient = 0;
-//	queue<Patient> waitingRoom;
+	queue<Patient> waitingRoom;
 	docIn = 0;
 }
 
@@ -19,7 +19,7 @@ Room::Room(int n){
 	roomNum = n;
 	doctor = 0;
 	patient = 0;
-//	queue<Patient> waitingRoom;
+	queue<Patient> waitingRoom;
 	docIn = 0;
 }
 
@@ -59,7 +59,7 @@ Patient Room::patDepart(){              //ASK JOHN!!!!!!!!!!!!!!!!!!!!!!
 }
 
 Doctor Room::getDoctor(){
-	return *doctor;
+	return *doctor;     //RETURNING THE DE-REFERENCED DOCTOR  FAIL?
 }
 
 int Room::numWaiting(){

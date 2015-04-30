@@ -26,71 +26,76 @@ vector<Room> rooms;
 ofstream out;  //OUTPUT MESSAGES
 
 int main(){
-	out.open("messages.out");
-
-	for(int x = 0;x<25;x++){
-		cout << "start building rooms" << endl;
-		Room temp(x);
-		rooms.push_back(temp);
-		cout << x+1 << " Rooms complete." << endl;
-	}
 
 	char checkIO;
 	char levelIO;
 
-	cout << "Wecome! Please follow our guided check-in process" << endl;
-	cout << endl;
-	cout << "Please type \"D\" if you are a doctor, or \"P\" if you are a patient." << endl;
-	out << "Please type \"D\" if you are a doctor, or \"P\" if you are a patient." << endl;
+	do{
+		out.open("messages.out");
 
-	cin >> levelIO;
-	levelIO = toupper(levelIO);
+		for(int x = 0;x<25;x++){
+			Room temp(x);
+			rooms.push_back(temp);
+		}
 
-	while (levelIO != 'D' && levelIO != 'P'){
-		cout << "Invalid selection. Please try again." << endl;
+		cout << "Wecome! Please follow our guided check-in process" << endl;
+		cout << endl;
+		cout << "Please type \"D\" if you are a doctor, or \"P\" if you are a patient." << endl;
+		out << "Please type \"D\" if you are a doctor, or \"P\" if you are a patient." << endl;
+
 		cin >> levelIO;
 		levelIO = toupper(levelIO);
-	}
 
-	if(levelIO == 'D'){
-		cout << "Are you checking in our out? \"I\" or \"O\"" << endl;
-		cin >> checkIO;
-		checkIO = toupper(checkIO);
-
-		while (checkIO != 'I' && checkIO != 'O'){
+		while (levelIO != 'D' && levelIO != 'P'){
 			cout << "Invalid selection. Please try again." << endl;
+			cin >> levelIO;
+			levelIO = toupper(levelIO);
+		}
+
+		if(levelIO == 'D'){
+			cout << "Are you checking in our out? \"I\" or \"O\"" << endl;
 			cin >> checkIO;
 			checkIO = toupper(checkIO);
-		}
 
-		if(checkIO == 'I'){
-			doctorCI();
+			while (checkIO != 'I' && checkIO != 'O'){
+				cout << "Invalid selection. Please try again." << endl;
+				cin >> checkIO;
+				checkIO = toupper(checkIO);
+			}
+
+			if(checkIO == 'I'){
+				doctorCI();
+			} else {
+				doctorCO();
+			}
 		} else {
-			doctorCO();
-		}
-	} else {
-		cout << "Are you checking in our out? \"I\" or \"O\"" << endl;
-		cin >> checkIO;
-
-		while (checkIO != 'I' && checkIO != 'O'){
-			cout << "Invalid selection. Please try again." << endl;
+			cout << "Are you checking in our out? \"I\" or \"O\"" << endl;
 			cin >> checkIO;
 			checkIO = toupper(checkIO);
-		}
 
-		if(checkIO == 'I'){
-			patientCI();
-		} else {
-			patientCO();
+			while (checkIO != 'I' && checkIO != 'O'){
+				cout << "Invalid selection. Please try again." << endl;
+				cin >> checkIO;
+				checkIO = toupper(checkIO);
+			}
+
+			if(checkIO == 'I'){
+				patientCI();
+			} else {
+				patientCO();
+			}
 		}
-	}
+	}while(levelIO != 'Q');
+	//END WHILE LOOP
+	out.close();
 }
 
 void doctorCI(){
+	out.open("messages.out");
 	string name;
 	int room;
 	string spec;
-//	bool check;
+	//	bool check;
 
 	cout << "What is your name?" << endl;
 	cin >> name;
@@ -98,12 +103,12 @@ void doctorCI(){
 	cout << "What room would you prefer? Choose 1-25" << endl;
 	cin >> room;
 
-//	do{
-//		check=false;
-//
-//	}
+	//	do{                     //Prevent non int types.
+	//		check=false;
+	//
+	//	}
 
-	while(rooms.at(room).hasDr()){
+	while(rooms.at(room-1).hasDr()){
 		cout << "Room occupied." << endl;
 		cout << "Please select another room. Choose 1-25" << endl;
 		cin >> room;
@@ -118,6 +123,7 @@ void doctorCI(){
 }
 
 void doctorCO(){
+	out.open("messages.out");
 	string name;
 	Patient *tempPat;
 	int tracker;
@@ -141,6 +147,9 @@ void doctorCO(){
 }
 
 void autoCheckIn(Patient p){
+	out.open("messages.out");
+	Patient pTest = Patient();
+	pTest = p;
 	string name;
 	string spec;
 	string type;
@@ -187,12 +196,13 @@ void autoCheckIn(Patient p){
 }
 
 void patientCI(){
+	out.open("messages.out");
 	string name;
 	string drName;
-	int age;
 	string spec;
-	string type;
+	string drSpec;
 	int track;
+	int age;
 
 	cout << "What is your name?" << endl;
 	cin >> name;
@@ -202,28 +212,28 @@ void patientCI(){
 	if(age > 15){
 		spec = specList();
 	} else {
-		spec = "ped";
+		spec = "PED";
 	}
 
-	Patient* pat = new Patient(name, spec, age);
+	Patient *pat = new Patient(name, spec, age);
 
 	int docTrack;
-	for(int x=0;x<25;x++){
+	for(int x=0;x<25;x++){  //**F6 PAST HERE
 		int count = 0;
-		drName = rooms.at(x).getDoctor().getDrName();
-		if(rooms.at(x).hasDr()){
+		if(rooms.at(x).hasDr()){  //WORKS UP TO HERE  **F6 PAST HERE
+			drName = rooms.at(x).getDoctor().getDrName();
 			if (rooms.at(x).getDoctor().getDrSpec() == "FP"){
 				docTrack = x;
 			}
-			type = rooms.at(x).getDoctor().getDrSpec();
-			if(type == pat->getSpec()){
-				pat->setRoom(x);
-				rooms.at(x).patArrive(*pat);        //ERROR ERROR ERROR
+			drSpec = rooms.at(x).getDoctor().getDrSpec();
+			if(drSpec == pat->getSpec()){
+				pat->setRoom(x+1);
+				rooms.at(x).patArrive(*pat);
 				track = 1;
-				cout << "Welcome, " << pat->getName() << ". You will see Dr. " << drName << " in room #" << x << endl;
-				out << pat->getName() << " will see Dr. " << drName << " in room #" << x << endl;
-			} else if(type != pat->getSpec() && count == 24){
-				pat->setRoom(x);                 //ERROR ERROR ERROR
+				cout << "Welcome, " << pat->getName() << ". You will see Dr. " << drName << " in room #" << x+1 << endl;
+				out << pat->getName() << " will see Dr. " << drName << " in room #" << x+1 << endl;
+			} else if(drSpec != pat->getSpec() && count == 24){
+				pat->setRoom(x+1);
 				rooms.at(docTrack).patArrive(*pat);
 				track = 1;
 			}
@@ -237,6 +247,7 @@ void patientCI(){
 }
 
 void patientCO(){
+	out.open("messages.out");
 	string name;
 	int tracker;
 
@@ -272,18 +283,18 @@ string specList(){
 
 	cout << "Please enter a specialty code." << endl;
 	cout << endl;
-	cout << "Pediatrics 					PED" << endl;
-	cout << "Family practice 				FAM" << endl;
-	cout << "Internal medicine 			    INT" << endl;
-	cout << "Cardiology 					CAR" << endl;
-	cout << "Surgeon 					    SUR" << endl;
-	cout << "Obstetrics 					OBS" << endl;
-	cout << "Psychiatry 					PSY" << endl;
-	cout << "Neurology 					    NEU" << endl;
-	cout << "Orthopedics 				    ORT" << endl;
-	cout << "Dermatology 				    DET" << endl;
-	cout << "Ophthalmology 			        OPT" << endl;
-	cout << "Ear, Nose, and Throat 	        ENT" << endl;
+	cout << "Pediatrics\t\tPED" << endl;
+	cout << "Family practice\t\tFAM" << endl;
+	cout << "Internal medicine\tINT" << endl;
+	cout << "Cardiology\t\tCAR" << endl;
+	cout << "Surgeon\t\t\tSUR" << endl;
+	cout << "Obstetrics\t\tOBS" << endl;
+	cout << "Psychiatry\t\tPSY" << endl;
+	cout << "Neurology\t\tNEU" << endl;
+	cout << "Orthopedics\t\tORT" << endl;
+	cout << "Dermatology\t\tDET" << endl;
+	cout << "Ophthalmology\t\tOPT" << endl;
+	cout << "Ear, Nose, and Throat\tENT" << endl;
 
 	cin >> input;
 
@@ -303,6 +314,6 @@ string specList(){
 		}
 	}
 
-cout << options[x] << endl;
-return options[x];
+	cout << options[x] << endl;
+	return options[x];
 }
