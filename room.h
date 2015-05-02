@@ -34,7 +34,7 @@ public:
 	Patient patDepart();
 
 	Doctor getDoctor();
-	Patient getPatient();
+	Patient* getPatient();
 	int numWaiting();
 	int roomNumber();
 

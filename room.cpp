@@ -70,6 +70,6 @@ int Room::roomNumber(){
 	return roomNum;
 }
 
-Patient Room::getPatient(){
-	return *patient;
+Patient* Room::getPatient(){
+	return patient;
 }

@@ -32,7 +32,7 @@ void doctorCI();
 void doctorCO();
 void patientCI();
 void patientCO();
-void autoCheckIn(Patient p);
+void autoCheckIn(Patient *pat);
 string specList();
 vector<Room> rooms;
 
@@ -154,8 +154,8 @@ void doctorCO(){
 
 	while(rooms.at(tracker).numWaiting() != 0){
 		Patient *tempPat =0;
-		*tempPat = rooms.at(tracker).getPatient();
-		autoCheckIn(*tempPat);              //Damn pointers and things
+		tempPat = rooms.at(tracker).getPatient();
+		autoCheckIn(tempPat);              //Damn pointers and things
 	}
 }
 
@@ -270,7 +270,7 @@ void patientCO(){
 	cin >> name;
 
 	for(tracker=0;tracker<25;tracker++){
-		if(name == rooms.at(tracker).getPatient().getName()){
+		if(name == rooms.at(tracker).getPatient()->getName()){
 			rooms.at(tracker).patDepart();
 			break;
 		}
