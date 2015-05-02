@@ -5,6 +5,19 @@
  *      Author: Justin
  */
 
+
+// ********************************************************************************************
+//                                   POINTER REMINDER!
+//
+//            I'll give u an example: int q=12; int *p=&q; int *pp; pp=&q;
+//
+//   Technically * and & do not hold for anything since they both operate on variables.
+//               * will extract the value while & will extract the address.
+//                The best way to dig the magic of pointers up is to debug.
+//
+//***********************************************************************************************
+
+
 #include<iostream>
 #include<fstream>
 
@@ -114,7 +127,7 @@ void doctorCI(){
 		cin >> room;
 	}
 
-	Doctor* doc = new Doctor(name, spec, room);
+	Doctor *doc = new Doctor(name, spec, room);
 
 	cout << "Welcome, Dr. " << doc->getDrName() << "." << endl;
 	out << "Welcome, Dr. " << doc->getDrName() << "." << endl;
@@ -125,7 +138,6 @@ void doctorCI(){
 void doctorCO(){
 	out.open("messages.out");
 	string name;
-	Patient *tempPat;
 	int tracker;
 
 	cout << "What is your name?" << endl;
@@ -141,37 +153,39 @@ void doctorCO(){
 	rooms.at(tracker).drDepart();
 
 	while(rooms.at(tracker).numWaiting() != 0){
-		*tempPat = rooms.at(tracker).patDepart();
-		autoCheckIn(*tempPat);
+		Patient *tempPat =0;
+		*tempPat = rooms.at(tracker).getPatient();
+		autoCheckIn(*tempPat);              //Damn pointers and things
 	}
 }
 
-void autoCheckIn(Patient p){
+void autoCheckIn(Patient *pat){
 	out.open("messages.out");
-	Patient pTest = Patient();
-	pTest = p;
-	string name;
-	string spec;
-	string type;
-	int track;
+	out.open("messages.out");
+		string name;
+		string drName;
+		string spec;
+		string drSpec;
+		int track=0;
 
 	int docTrack;
-	for(int x=0;x<25;x++){
+	for(int x=0;x<25;x++){  //**F6 PAST HERE
 		int count = 0;
-		if(rooms.at(x).hasDr()){
+		if(rooms.at(x).hasDr()){  //WORKS UP TO HERE  **F6 PAST HERE
+			drName = rooms.at(x).getDoctor().getDrName();
 			if (rooms.at(x).getDoctor().getDrSpec() == "FP"){
 				docTrack = x;
 			}
-			type = rooms.at(x).getDoctor().getDrSpec();
-			if(type == p.getSpec()){
-				p.setRoom(x);
-				rooms.at(x).patArrive(p);
+			drSpec = rooms.at(x).getDoctor().getDrSpec();
+			if(drSpec == pat->getSpec()){
+				pat->setRoom(x+1);
+				rooms.at(x).patArrive(pat);
 				track = 1;
-				cout << p.getName() << ", you have been assigned to Dr. " << rooms.at(x).getDoctor().getDrName() << " in room "<< rooms.at(x).roomNumber() << endl;
-				out << p.getName() << ", has been relocated to Dr. " << rooms.at(x).getDoctor().getDrName() << " in room " << rooms.at(x).roomNumber() << endl;
-			} else if(type != p.getSpec() && count == 24){
-				p.setRoom(x);
-				rooms.at(docTrack).patArrive(p);
+				cout << "Welcome, " << pat->getName() << ". You will see Dr. " << drName << " in room #" << x+1 << endl;
+				out << pat->getName() << " will see Dr. " << drName << " in room #" << x+1 << endl;
+			} else if(drSpec != pat->getSpec() && count == 24){
+				pat->setRoom(x+1);
+				rooms.at(docTrack).patArrive(pat);
 				track = 1;
 			}
 		}
@@ -188,10 +202,10 @@ void autoCheckIn(Patient p){
 			}
 		}
 
-		cout << p.getName() << ", you have been assigned to Dr. " << rooms.at(waitList).getDoctor().getDrName() << " in room "<< rooms.at(waitList).roomNumber() << endl;
-		out << p.getName() << ", has been relocated to Dr. " << rooms.at(waitList).getDoctor().getDrName() << " in room " << rooms.at(waitList).roomNumber() << endl;
+		cout << pat->getName() << ", you have been assigned to Dr. " << rooms.at(waitList).getDoctor().getDrName() << " in room "<< rooms.at(waitList).roomNumber() << endl;
+		out << pat->getName() << ", has been relocated to Dr. " << rooms.at(waitList).getDoctor().getDrName() << " in room " << rooms.at(waitList).roomNumber() << endl;
 
-		rooms.at(waitList).patArrive(p);
+		rooms.at(waitList).patArrive(pat);
 	}
 }
 
@@ -201,7 +215,7 @@ void patientCI(){
 	string drName;
 	string spec;
 	string drSpec;
-	int track;
+	int track=0;
 	int age;
 
 	cout << "What is your name?" << endl;
@@ -228,13 +242,13 @@ void patientCI(){
 			drSpec = rooms.at(x).getDoctor().getDrSpec();
 			if(drSpec == pat->getSpec()){
 				pat->setRoom(x+1);
-				rooms.at(x).patArrive(*pat);
+				rooms.at(x).patArrive(pat);
 				track = 1;
 				cout << "Welcome, " << pat->getName() << ". You will see Dr. " << drName << " in room #" << x+1 << endl;
 				out << pat->getName() << " will see Dr. " << drName << " in room #" << x+1 << endl;
 			} else if(drSpec != pat->getSpec() && count == 24){
 				pat->setRoom(x+1);
-				rooms.at(docTrack).patArrive(*pat);
+				rooms.at(docTrack).patArrive(pat);
 				track = 1;
 			}
 		}
@@ -243,6 +257,7 @@ void patientCI(){
 	if(track == 0){
 		cout << "We are sorry, " << pat->getName() << " we do not have the required specialist on duty at this moment" << endl;
 		out << "We are sorry, " << pat->getName() << " we do not have the required specialist on duty at this moment" << endl;
+		cout << endl;
 	}
 }
 
@@ -256,6 +271,7 @@ void patientCO(){
 
 	for(tracker=0;tracker<25;tracker++){
 		if(name == rooms.at(tracker).getPatient().getName()){
+			rooms.at(tracker).patDepart();
 			break;
 		}
 

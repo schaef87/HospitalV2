@@ -42,11 +42,11 @@ void Patient::setRoom(int r){
 	room = r;
 }
 
-void Patient::operator= (Patient p){
-	if(this!=&p){
-		name=p.name;
-		spec=p.spec;
-		age=p.age;
-		room=p.room;
+void Patient::operator= (const Patient *p){
+	if(this!=p){
+		name=p->name;
+		spec=p->spec;
+		age=p->age;
+		room=p->room;
 	}
 }

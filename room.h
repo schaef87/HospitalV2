@@ -27,9 +27,9 @@ public:
 	bool hasDr();
 
 	void setRmNum(int r);
-	void drArrive(Doctor d);
+	void drArrive(Doctor &d);
 	void drDepart();
-	void patArrive(Patient p);
+	void patArrive(const Patient *p);
 	void patShuffle(Patient p);
 	Patient patDepart();
 

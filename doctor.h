@@ -23,6 +23,7 @@ public:
 	string getDrName();
 	string getDrSpec();
 	int getDrRoom();
+	void operator*= (const Doctor &d);
 
 private:
 	string name;

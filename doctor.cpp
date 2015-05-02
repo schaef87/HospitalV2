@@ -33,3 +33,11 @@ string Doctor::getDrSpec(){
 int Doctor::getDrRoom(){
 	return room;
 }
+
+void Doctor::operator*= (const Doctor &d){
+	if(this!=&d){
+		name=d.name;
+		spec=d.spec;
+		room=d.room;
+	}
+}

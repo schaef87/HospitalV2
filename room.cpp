@@ -38,7 +38,7 @@ bool Room::hasDr(){
 	return false;
 }
 
-void Room::drArrive(Doctor d){
+void Room::drArrive (Doctor &d){
 	doctor = &d;
 	docIn = 1;
 }
@@ -48,8 +48,8 @@ void Room::drDepart(){
 	docIn = 0;
 }
 
-void Room::patArrive(Patient p){
-	waitingRoom.push(p);
+void Room::patArrive(const Patient *p){
+	waitingRoom.push(*p);
 }
 
 Patient Room::patDepart(){              //ASK JOHN!!!!!!!!!!!!!!!!!!!!!!
